@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Usuários</title>
+</head>
+<body>
+    
+    <div class="corpinhoCadastrar">
+        <div class="row g-3">
+            <div>
+                <div class="col">
+                <input type="text" ng-model="usuario.name" value="name" id="nome" class="form-control nome" placeholder="Nome" aria-label="First name">
+                </div>
+                <div class="col">
+                    <input type="text" ng-model="usuario.email" class="form-control email" placeholder="E-mail" aria-label="E-mail">
+                </div>
+            </div>
+            <div>
+                <div class="col">
+                    <input type="text" class="form-control senha" ng-model="usuario.password" placeholder="Senha" aria-label="Senha">
+                </div>
+                <input class="btn btnCadastrar" type="button" value="Atualizar" ng-click="postdata()" />
+            </div>
+            <a class="btn btnVoltar" href="#!/">Voltar</a>
+        </div>
+    </div>
+</body>
+</html>
