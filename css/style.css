@@ -58,3 +58,21 @@
     border: none;
     float: none !important;
 }
+
+/*--------------
+     LOGIN
+---------------*/
+
+#bodyLogin{
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.ajusterContainer{
+    width: 450px;
+    height: 700px;
+    margin: 0 auto;
+}
