@@ -1,0 +1,24 @@
+<div class="centralizacao">
+    <form class="login">
+        <h3>Entre com email e senha</h3>
+        <hr>
+        <div class="mb-3">
+            <div class="input-group">
+                <div class="input-group-text">👤</div>
+                <input ng-model="email" type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Email">
+              </div>
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <div class="mb-3">
+            <div class="input-group">
+                <div class="input-group-text">🖤</div>
+                <input ng-model="password" type="password" class="form-control" id="inlineFormInputGroupUsername" placeholder="Password">
+              </div>
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        </div> 
+        <button type="submit" class="btn btn-primary btnLogin" ng-click="login()">Submit</button>
+    </form>
+</div>
