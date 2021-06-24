@@ -1,5 +1,6 @@
 body{
     background-color: black;
+    color: white;
 }
 
 .margin-bottom{
@@ -42,8 +43,16 @@ body{
     margin-left: 10%;
 }
 .senha{
-    width: 70%;
+    width: 60%;
     float: left;
+}
+
+.checkbox{
+    float: left;
+    margin: 0 auto;
+    color: white;
+    margin-left: 3%;
+    margin-top: 1%;
 }
 .corpinhoCadastrar{
     width: 900px;
