@@ -143,23 +143,17 @@ app.factory('emailGet', ['$resource', '$cookies', function ($resource) {
 
 app.factory('Teste', ['$resource', '$cookies', function ($resource) {
   return $resource('http://localhost:3001/users/listAll', {}, {
-    getA: { method: 'GET', isArray: true },
+    getA: { method: 'GET'},
   });
 }]);
 
-app.service('serviceAdmin', function ($cookies) {
-  this.isAdmin = function () {
-    return $cookies.get('admin') == "true";
-  }
-})
-
-app.controller('Usuario', function ($scope, User, Teste, LoginPost, emailGet, $routeParams, $cookies, serviceAdmin, $location, $window) {
+app.controller('Usuario', function ($scope, User, Teste, LoginPost, emailGet, $routeParams, $cookies, $location) {
   var vm = this;
 
-  $scope.statusAdmin = serviceAdmin.isAdmin();
   if ($cookies.get('bolinho')) {
     Teste.getA().$promise.then(function (data) {
-      $scope.usuario = data;
+      $scope.corinthians = data.token
+      $scope.usuario = data.usuarios;
     })
   }
 
@@ -218,7 +212,6 @@ app.controller('Usuario', function ($scope, User, Teste, LoginPost, emailGet, $r
         alert('Login ou senha errado! Tente novamente')
       } else {
         emailGet.get({ email: $scope.email }).$promise.then(function (data2) {
-          $cookies.put('admin', data2.admin)
           $cookies.put('bolinho', data.token)
           console.log(data.permissao)
           window.location.href = '#!/login';
@@ -229,7 +222,6 @@ app.controller('Usuario', function ($scope, User, Teste, LoginPost, emailGet, $r
 
   $scope.removeCookie = function () {
     $cookies.remove('bolinho');
-    $cookies.remove('admin');
     window.location.href = '#!/';
   }
 });

@@ -1,5 +1,5 @@
 <input type="button" class="btn btnLogin margin-bottom float-left Sair" value="Sair" ng-click="removeCookie()"/>
-<a href="#!/cadastrar" class="btn btnLogin margin-bottom" ng-if="statusAdmin">Cadastrar Usuário</a>
+<a href="#!/cadastrar" class="btn btnLogin margin-bottom" ng-if="corinthians">Cadastrar Usuário</a>
 <table class="table table-dark table-hove">
     <thead>
         <tr>
@@ -19,8 +19,8 @@
             <td>{{dado.email}}</td>
             <td>{{dado.password}}</td>
             <td>{{dado.admin}}</td>
-            <td><a ng-if="statusAdmin" ng-href="#!/editar/{{dado._id}}"><input class="btn btn-warning" type="button" value="Editar"/></a></td>
-            <td><input ng-if="statusAdmin" class="btn btn-danger" type="button" value="Excluir" ng-click="delete(dado._id)"/></td>
+            <td><a ng-if="corinthians" ng-href="#!/editar/{{dado._id}}"><input class="btn btn-warning" type="button" value="Editar"/></a></td>
+            <td><input ng-if="corinthians" class="btn btn-danger" type="button" value="Excluir" ng-click="delete(dado._id)"/></td>
         </tr>
     </tbody>
 </table>
