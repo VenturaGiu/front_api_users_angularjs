@@ -38,7 +38,10 @@ app.factory('TokenInterceptor', ['$q',
         config.headers = config.headers || {};
         if ($cookies.get('bolinho')) {
           config.headers.Authorization = $cookies.get('bolinho').trim();
+        } else {
+          window.location.href = '#!/';
         }
+
         return config;
       },
       requestError: function (rejection) {
@@ -67,8 +70,8 @@ app.factory('TokenInterceptor', ['$q',
   }
 ]);
 
-app.factory('myHttpInterceptor', ['$q', '$rootScope', '$timeout',
-  function ($q, $rootScope, $timeout) {
+app.factory('myHttpInterceptor', ['$q',
+  function ($q) {
     return {
       request: function (config) {
         console.info('requisição iniciada ' + new Date())
@@ -87,7 +90,6 @@ app.factory('myHttpInterceptor', ['$q', '$rootScope', '$timeout',
       responseError: function (response) {
         console.info('requisição com falha finalizada ' + new Date())
         if (response && response.status == 401) {
-          window.location.href = '#!/';
           return $q.reject(response);
         }
 
@@ -99,7 +101,6 @@ app.factory('myHttpInterceptor', ['$q', '$rootScope', '$timeout',
         if (response && response.status == 403 || response.status == 401) {
           msg = customMsg || 'Você não está autorizado a executar esta solicitação';
           console.error(msg)
-          window.location.href = '#!/';
           return $q.reject(response);
         }
         if (response && response.status == 404) {
@@ -107,14 +108,11 @@ app.factory('myHttpInterceptor', ['$q', '$rootScope', '$timeout',
         } else if (response && response.status == 400 &&
           (response.data && (response.data[0] && response.data[0].message || response.data.msg))) {
           // msg = customMsg || response && response.data && response.data[0] && response.data[0].message ? response.data[0].message : response && response.data && response.data.msg ? response.data.msg : 'Dados invalidos';
-          window.location.href = '#!/';
         } else {
           msg = customMsg ? customMsg : msg ? msg : 'Nao foi possivel executar a solicitacao. Contacte o Administrator e tente novamente mais tarde'
           console.error(msg)
-          window.location.href = '#!/';
           return $q.reject(response);
         }
-        window.location.href = '#!/';
         console.error(msg);
         return $q.reject(response);
       }
@@ -155,11 +153,10 @@ app.service('serviceAdmin', function ($cookies) {
   }
 })
 
-app.controller('Usuario', function ($scope, User, Teste, LoginPost, emailGet, $routeParams, $cookies, serviceAdmin, $location) {
+app.controller('Usuario', function ($scope, User, Teste, LoginPost, emailGet, $routeParams, $cookies, serviceAdmin, $location, $window) {
   var vm = this;
 
   $scope.statusAdmin = serviceAdmin.isAdmin();
-  console.log($cookies.get('bolinho'), $location.url())
   if ($cookies.get('bolinho')) {
     Teste.getA().$promise.then(function (data) {
       $scope.usuario = data;
@@ -168,10 +165,12 @@ app.controller('Usuario', function ($scope, User, Teste, LoginPost, emailGet, $r
 
   $scope.delete = function (id) {
     User.delete({ id: id }).$promise.then(function (data) {
-      alert('usuario removido')
+      alert('Usuario Removido')
       location.reload();
     }).catch(function (data) {
-      alert('usuario não removido')
+      if(data.status == 403){
+        alert('Acesso Negado')
+      }
     })
   }
 
@@ -190,12 +189,22 @@ app.controller('Usuario', function ($scope, User, Teste, LoginPost, emailGet, $r
     }
     User.post(obj).$promise.then(function (usuariosalvo) {
       console.log(usuariosalvo);
+    }).catch(function (data) {
+      if(data.status == 403){
+        alert('Acesso Negado')
+        location.reload();
+      }
     })
   }
 
   $scope.postdata = function () {
     User.put({ id: $scope.usuario._id }, $scope.usuario).$promise.then(function (usuariosalvo) {
       console.log(usuariosalvo);
+    }).catch(function(data) {
+      if(data.status == 404){
+        alert('Acesso Negado')
+        location.reload()
+      }
     })
   }
 
@@ -209,9 +218,9 @@ app.controller('Usuario', function ($scope, User, Teste, LoginPost, emailGet, $r
         alert('Login ou senha errado! Tente novamente')
       } else {
         emailGet.get({ email: $scope.email }).$promise.then(function (data2) {
-          console.log(data2)
           $cookies.put('admin', data2.admin)
           $cookies.put('bolinho', data.token)
+          console.log(data.permissao)
           window.location.href = '#!/login';
         })
       }

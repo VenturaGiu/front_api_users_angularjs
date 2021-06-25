@@ -21,6 +21,8 @@
                 <div class="col">
                     <input type="text" class="form-control senha" ng-model="usuario.password" placeholder="Senha" aria-label="Senha">
                 </div>
+                <label class="checkbox">Admin?</label>
+                    <input class="checkbox" type="checkbox" ng-model="usuario.admin" class="">
                 <input class="btn btnCadastrar btnLogin" type="button" value="Atualizar" ng-click="postdata()" />
             </div>
             <a class="btn btnVoltar btnLogin" href="#!/login">Voltar</a>
